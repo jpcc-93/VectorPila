@@ -5,6 +5,7 @@
 package pilaclase;
 
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,22 +20,50 @@ public class VectorPila {
     public VectorPila() {
         tope = -1;
         Tmax = 100;
-        int[] pila = new int[Tmax];
+        this.pila = new int[Tmax];
     }
     
     public VectorPila(int Tmax) {
         tope = -1;
         this.Tmax = Tmax;
-        int[] pila = new int[Tmax];
+        this.pila = new int[Tmax];
+    }
+    
+    public void mostrarpila(){
+        int muestra;
+        String datos = "";
+        VectorPila aux = new VectorPila();
+        while(tope != -1){
+            muestra = desapilar();
+            aux.apilar(muestra);
+            
+        }
+            System.out.println("tope propio"+this.tope);
+            System.out.println("tope auxiliar"+aux.getTope());
+        
+        while(aux.getTope() != -1){
+            apilar(aux.desapilar());
+            System.out.println(getPila());
+            System.out.println(this.tope);
+            System.out.println(aux.getTope());
+            muestra = getPila();
+            datos = datos + "\t" + String.valueOf(muestra);
+            //System.out.println("dato :"+datos);
+        }
+        //System.out.println(datos);
+        JOptionPane.showMessageDialog(null,datos);
+        
     }
     
     public void llenar(){
-        while(tope != 100){
+        while(tope != 99){
             Random aleatorio = new Random();
             int aux = aleatorio.nextInt(0,9);
             apilar(aux);
-            System.out.println(aux);
+            //System.out.println(aux);
         }
+        System.out.println(this.tope);
+            
     }
     
     public boolean Pilallena(){
@@ -61,7 +90,7 @@ public class VectorPila {
             return -1;
         }else{
             tope = tope +1;
-            System.out.println(tope);
+            //System.out.println(tope);
             pila[tope] = dato;
             
             return 1;
@@ -75,14 +104,14 @@ public class VectorPila {
             return -1;
         }else{
             int dato = pila[tope];
-            tope =- 1;
+            tope =  tope - 1;
             return dato;
         }
         
     }
     
     
-    public VectorPila resize(){
+    public VectorPila resize(int dato){
         VectorPila lista = new VectorPila(Tmax +1);
         VectorPila aux = new VectorPila();
         while(tope != -1){
@@ -91,6 +120,8 @@ public class VectorPila {
         while(aux.getTope() != -1){
             lista.apilar(aux.desapilar());
         }
+        lista.apilar(dato);
+        
         return lista;
     
     }
@@ -104,8 +135,8 @@ public class VectorPila {
         this.Tmax = Tmax;
     }
 
-    public int[] getPila() {
-        return pila;
+    public int getPila() {
+        return pila[this.tope];
     }
 
     public void setPila(int[] pila) {
